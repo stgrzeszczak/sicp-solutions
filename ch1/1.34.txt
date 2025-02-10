@@ -1,0 +1,9 @@
+(f f)
+   /
+  /
+|/_
+(f 2)
+   /
+  /
+|/_
+(2 2) interpreter error
