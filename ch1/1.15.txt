@@ -1,0 +1,11 @@
+(sine 12.15)
+(p (sine 4.05)
+(p (p (sine 1.35))
+(p (p (p (sine 0.45)))
+(p (p (p (p (sine 0.15))))
+(p (p (p (p (p (sine 0.05)))))
+5 times
+
+growth rate  O( log3( a/0.1 )) = O( log3(a) ) in space and number of steps
+
+for 12.15 radians,  log3 (121.5) ~= 4.37  -> ceiling(4.37)=5

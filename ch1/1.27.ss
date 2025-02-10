@@ -1,0 +1,41 @@
+(define square (lambda (x) (* x x)))
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder 
+          (square (expmod base (/ exp 2) m))
+          m))
+        (else
+         (remainder 
+          (* base (expmod base (- exp 1) m))
+          m))))
+
+(define (is-congruent a n)
+    (= (expmod a n n) a))
+
+(define (full-fermat-test n)
+    (define (ifft a n)
+      (cond ((= a n) #t)
+        ((not (is-congruent a n))
+         (display "test failed on ")
+         (display a)
+         (newline)
+         #f)
+        (else (ifft (+ a 1) n))
+        )
+      )
+    (ifft 2 n))
+
+;examples of the test passing on some Carmichael numbers:
+(display "(full-fermat-test 561): ")
+(display (full-fermat-test 561))
+(newline)
+(display "(full-fermat-test 1105): ")
+(display (full-fermat-test 1105))
+(newline)
+(display "(full-fermat-test 1729): ")
+(display (full-fermat-test 1729))
+(newline)
+(display "(full-fermat-test 2465): ")
+(display (full-fermat-test 2465))
+(newline)

@@ -1,0 +1,2 @@
+Every branch where the exponent is halved is evaluated twice, perfectly cancelling
+the benefits from "fast" (logarithmic-time) exponentiation.

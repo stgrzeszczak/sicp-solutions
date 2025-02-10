@@ -1,0 +1,18 @@
+(define (fast-exp b n)
+    (define (ifexp b n accu)
+      (cond ((= n 0) accu)
+        ((even? n) (ifexp (* b b) (/ n 2) accu))
+        (else (ifexp b (- n 1) (* b accu)))
+      ))
+    (ifexp b n 1))
+(display "(fast-exp 2 5): ")
+(display (fast-exp 2 5))
+(newline)
+(display "(fast-exp 3 4): ")
+(display (fast-exp 3 4))
+(newline)
+(display "(fast-exp 3 3): ")
+(display (fast-exp 3 3))
+(newline)
+
+

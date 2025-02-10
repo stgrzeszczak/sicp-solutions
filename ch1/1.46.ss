@@ -1,0 +1,46 @@
+(define (iter-improv is-good-enough improve)
+    (define (f guess)
+      (if (is-good-enough guess)
+          guess
+          (f (improve guess))
+          ))
+    f)
+
+(define average (lambda (x y) (/ (+ x y) 2)))
+(define square (lambda (x) (* x x)))
+(define (iisqrt x)
+    (define (is-good-enough guess)
+        (< (abs (- (square guess) x)) 0.001))
+    (define (improve guess)
+      (average guess (/ x guess)))
+    ((iter-improv is-good-enough improve) 1.0)
+    )
+    
+(display "(iisqrt 2): ")
+(display (iisqrt 2))
+(newline)
+(display "(iisqrt 3): ")
+(display (iisqrt 3))
+(newline)
+
+(define tolerance 0.00001)
+(define (iifixed f first-guess)
+    (define (is-good-enough guess)
+      (let ((next (f guess) ))
+          (< (abs (- guess next)) tolerance)
+        )
+      )
+    ((iter-improv is-good-enough f) 1.0)
+    )
+; there's an inefficiency here: f(guess) is calculated twice -
+; first time in is-good-enough; second time in the iteration.
+
+(display "(iifixed cos 1.0): ")
+(newline)
+(display (iifixed cos 1.0))
+(newline)
+(display "(iifixed (lambda (y) (+ (sin y) (cos y))) 1.0): ")
+(newline)
+(display (iifixed (lambda (y) (+ (sin y) (cos y))) 1.0))
+(newline)
+
