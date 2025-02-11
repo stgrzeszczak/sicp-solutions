@@ -29,14 +29,13 @@
     (display n)
     (start-prime-test n (current-time)))
 
-
+; search for first 3 primes starting from number n
 (define (search-for-primes n)
     (define (sfpi n count)
       (if (timed-prime-test n)
           (if (= count 2)
              (newline)   ; if previous count was 2, new count is 3, so stop recursion and print newline instead
              		 ; - but how do I just break the execution without making some call ????
-             		 ; Also: I'm getting some "void"s in the printed output
              (sfpi (+ n 1) (+ count 1)))
           (sfpi (+ n 1) count)
           )
@@ -72,14 +71,14 @@
 ; when loading the script wholesale, the results are closer to sqrt(10) - effect of branch prediction?
 
 (display "(search-for-primes 1000):")
-(display (search-for-primes 1000))
+(search-for-primes 1000)
 (newline)
 (display "(search-for-primes 10000):")
-(display (search-for-primes 10000))
+(search-for-primes 10000)
 (newline)
 (display "(search-for-primes 100000):")
-(display (search-for-primes 100000))
+(search-for-primes 100000)
 (newline)
 (display "(search-for-primes 1000000):")
-(display (search-for-primes 1000000))
+(search-for-primes 1000000)
 (newline)

@@ -50,10 +50,11 @@
 (define two (lambda (f) (lambda (x) (f (f x))))
 
 ; number n is a function, which takes a function of one parameter and
-; returns a function that repeats (applies) that function n times
+; returns a function of one parameter that repeats (applies) that function n times on the parameter
 
 ; addition of A and B: return a function which which takes a function of one parameter and
-; returns a function which applies the function repeated A and B times
+; returns a function of one parameter which applies the function repeated B times on the parameter
+; then applies the same function repeated A times on the result
 (define (+ a b)
   (lambda (f)
     (lambda (x)
