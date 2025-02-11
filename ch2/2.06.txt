@@ -1,0 +1,63 @@
+(define zero (lambda (f) (lambda (x) x)) )
+
+(define (add-1 n)
+  (lambda (f) (lambda (x) (f ((n f) x)))))
+  
+(define (add-1 n)
+    (lambda (f)
+      (lambda (x)
+        (f ((n f) x)
+           ))))
+
+(add-1 zero)
+
+(lambda (f)
+  (lambda (x)
+    (f (((lambda (f) (lambda (x) x)) f) x)
+       )))
+
+(lambda (f)
+  (lambda (x)
+    (f ((lambda (x) x) x)
+       )))
+
+(lambda (f)
+  (lambda (x)
+    (f x)
+       )))
+
+;ergo:
+(define one (lambda (f) (lambda (x) (f x))))
+
+(add-1 one)
+
+(lambda (f)
+  (lambda (x)
+    (f (( (lambda (f) (lambda (x) (f x))) f) x)
+       )))
+
+(lambda (f)
+  (lambda (x)
+    (f ((lambda (x) (f x)) x)
+       )))
+
+(lambda (f)
+  (lambda (x)
+    (f (f x)
+       )))
+
+; ergo
+(define two (lambda (f) (lambda (x) (f (f x))))
+
+; number n is a function, which takes a function of one parameter and
+; returns a function that repeats (applies) that function n times
+
+; addition of A and B: return a function which which takes a function of one parameter and
+; returns a function which applies the function repeated A and B times
+(define (+ a b)
+  (lambda (f)
+    (lambda (x)
+      ((a f)
+        ((b f) x)) )))
+
+
