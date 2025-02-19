@@ -4,3 +4,5 @@ We'd be working on enormous numbers, straining the machines resources
 For example, for testing the primality of 1000037 ~= 1M,
 if the random number generator gives us a test number also around 1M,
 We'd be calculating 1M ^ 1M, meaning a number with 6M decimal digits.
+
+The running time with this version of expmod is visibly larger, but Scheme manages to perform the calculation :).
