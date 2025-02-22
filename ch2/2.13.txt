@@ -1,0 +1,9 @@
+Assuming two positive numbers, 1 & 2, defined by Center C and Tolerance T given as a fraction (without need to multiply/divide by 100 for percents)
+
+Let R be the result of multiplying 1 & 2.
+
+upper bound of R = C1*(1 + T1) * C2*(1 + T2) = C1*C2 + C1*C2*(T1 + T2) + C1*C2*T1*T2
+lower bound of R = C1*(1 - T1) * C2*(1 - T2) = C1*C2 - C1*C2*(T1 + T2) + C1*C2*T1*T2
+
+Assuming that the tolerances are small, we can cross out the last terms, and approximate
+TR = T1 + T2.
