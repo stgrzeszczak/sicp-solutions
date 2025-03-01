@@ -19,10 +19,10 @@
 (define (simpson f a b n)
     (define h (/ (- b a ) n))
     (define (two-step x) (+ x h h))
-    (* h (/ 1 3.0)
+    (* h (/ 1 3)
        (+ (f a)
           (f b)
-          (* 4 (sum f (+ a h) two-step b))
+          (* 4 (sum f (+ a h) two-step (- b h)))
           (* 2 (sum f (+ a h h) two-step (- b h))) ; important to change the 'b' boundary,
           ; otherwise the hops will reach b and add 2*f(b) to the sum
           )))
@@ -33,3 +33,8 @@
 (display "(simpson cube 0 1 1000): ")
 (display (simpson cube 0 1 1000))
 (newline)
+
+; overall, the result is very fragile to using real numbers,
+; for example
+; (simpson cube 0.0 1.0 100)
+; seems to miss the one but last element of the sum ()

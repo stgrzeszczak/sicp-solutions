@@ -54,4 +54,3 @@
 (display "(product-of-rel-primes 8): ") ; 3 * 5 * 7
 (display (product-of-rel-primes 8))
 (newline)
-
