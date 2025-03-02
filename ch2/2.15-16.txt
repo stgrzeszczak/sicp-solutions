@@ -1,0 +1,9 @@
+2.15
+Despite multiple attempts, I was not able to find a counterexample. Every new
+usage of an uncertain number increased the width of the overall final result.
+This aligns with what one may intuitively think.
+
+2.16.
+If an algebraic expression contains additional instances of an uncertain number,
+it's overall uncertainty will be higher.
+I cannot.
