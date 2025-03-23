@@ -1,5 +1,5 @@
 ; Two interesting things here
-; nil is not defined in Chez Scheme
+; nil is not defined in Chez Scheme. I shall use (list) for empty list instead.
 ; (= a b) does not work on booleans. (equal? a b) does. Another option is (boolean=? a b). 
 (define (same-parity x . rest)
     (define (filter-by-parity items expected)

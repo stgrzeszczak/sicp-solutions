@@ -1,0 +1,9 @@
+1.
+The problem is that as items are popped off the list, they are immediately squared and put in the answer list.
+As a result, the answer list is reversed comparing to what we want to achieve.
+
+2. This solution has the same issue: as items are popped off the list, they are immediately squared and put in the answer. Except that now the answer is built as a pair of the answer from the previous iteration and the square,
+leading to a structure of nested pairs built the opposite way from how a Scheme list is built:
+((((a b) c) d) e)
+instead of
+(a (b (c (d e))))
