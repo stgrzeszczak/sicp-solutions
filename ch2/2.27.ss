@@ -1,18 +1,17 @@
+; the following works, but it's not using the knowledge from 2.2 with insight. Look on the net for better solutions.
+
 (define (deep-reverse items)
-    (define (idr in out)
-      (if (null? in) out
-          (idr (cdr in) (cons (deep-reverse (car in)) out))
+      (define (idr in out)
+        (if (null? in) out
+            (idr (cdr in) (cons (deep-reverse (car in)) out))
+        ))
+      (if (pair? items)
+          (idr items '())
+          items
       ))
-    (if (pair? items)
-        (if (pair? (cdr items))
-            (idr items '())
-            (deep-reverse (car items))
-            )
-        items
-    ))
 
 (define x (list (list 1 2) (list 3 4)))
-(define y (list (list (list 1 2) (list 3 4 5)) (list (list 8 9 10) 11)))
+(define y (list (list (list 1 2) (list 3 4 5)) (list (list 8 9 10) '() 11)))
 (define z (list (list 1 2 3) (list 4 5)))
 
 (display "x               : ")
