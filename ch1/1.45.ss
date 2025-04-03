@@ -60,5 +60,5 @@
 (display (nthroot 2 16 4))
 ; experimental conclusion: the number of required average damps for n-th root must be log2(n),
 ; otherwise the procedure does not converge
-; or converges very slowy (in some cases)
+; or converges very slowly (in some cases)
 
