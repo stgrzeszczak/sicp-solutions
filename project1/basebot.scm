@@ -3,16 +3,16 @@
 
 ;;; idea is to simulate a baseball robot
 
-;; imagine hitting a ball with an initial velocity of v 
+;; imagine hitting a ball with an initial velocity of v
 ;; at an angle alpha from the horizontal, at a height h
 ;; we would like to know how far the ball travels.
 
 ;; as a first step, we can just model this with simple physics
-;; so the equations of motion for the ball have a vertical and a 
+;; so the equations of motion for the ball have a vertical and a
 ;; horizontal component
 
 ;; the vertical component is governed by
-;; y(t) = v sin alpha t + h - 1/2 g t^2 
+;; y(t) = v sin alpha t + h - 1/2 g t^2
 ;; where g is the gravitational constant of 9.8 m/s^2
 
 ;; the horizontal component is governed by
@@ -20,7 +20,7 @@
 ;; assuming it starts at the origin
 
 ;; First, we want to know when the ball hits the ground
-;; this is governed by the quadratic equation, so we just need to know when 
+;; this is governed by the quadratic equation, so we just need to know when
 ;; y(t)=0 (i.e. for what t_impact is y(t_impact)= 0).
 ;; note that there are two solutions, only one makes sense physically
 
@@ -104,7 +104,7 @@
     (lambda (vertical-velocity elevation)
       (root1 (* -0.5 gravity) vertical-velocity elevation)))
 
-;; Note that if we want to know when the ball drops to a particular height r 
+;; Note that if we want to know when the ball drops to a particular height r
 ;; (for receiver), we have
 
 ; we need to "shift" the x axis by `target-elevation`
@@ -128,7 +128,12 @@
       (let ((time (time-to-impact (* velocity (sin angle)) elevation)))
         (* time velocity (cos angle)))))
 
-;; let's try this out for some example values.  Note that we are going to 
+(define travel-time-simple
+    (lambda (elevation velocity angle)
+      (let ((time (time-to-impact (* velocity (sin angle)) elevation)))
+        time)))
+
+;; let's try this out for some example values.  Note that we are going to
 ;; do everything in metric units, but for quaint reasons it is easier to think
 ;; about things in English units, so we will need some conversions.
 
@@ -226,7 +231,7 @@
 ; (radian2degree (find-best-angle 100 1))
 ; 44.69074576886229
 
-; but for small velocities, the angle decreases: 
+; but for small velocities, the angle decreases:
 ; (find-best-angle 5 1)
 ; 0.6400000000000003
 ; (radian2degree (find-best-angle 5 1))
@@ -258,10 +263,10 @@
 
 ;; Problem 6
 
-;; problem is that we are not accounting for drag on the ball (or on spin 
+;; problem is that we are not accounting for drag on the ball (or on spin
 ;; or other effects, but let's just stick with drag)
 ;;
-;; Newton's equations basically say that ma = F, and here F is really two 
+;; Newton's equations basically say that ma = F, and here F is really two
 ;; forces.  One is the effect of gravity, which is captured by mg.  The
 ;; second is due to drag, so we really have
 ;;
@@ -269,19 +274,19 @@
 ;;
 ;; drag is captured by 1/2 C rho A vel^2, where
 ;; C is the drag coefficient (which is about 0.5 for baseball sized spheres)
-;; rho is the density of air (which is about 1.25 kg/m^3 at sea level 
+;; rho is the density of air (which is about 1.25 kg/m^3 at sea level
 ;; with moderate humidity, but is about 1.06 in Denver)
-;; A is the surface area of the cross section of object, which is pi D^2/4 
+;; A is the surface area of the cross section of object, which is pi D^2/4
 ;; where D is the diameter of the ball (which is about 0.074m for a baseball)
-;; thus drag varies by the square of the velocity, with a scaling factor 
+;; thus drag varies by the square of the velocity, with a scaling factor
 ;; that can be computed
 
-;; We would like to again compute distance , but taking into account 
+;; We would like to again compute distance , but taking into account
 ;; drag.
-;; Basically we can rework the equations to get four coupled linear 
+;; Basically we can rework the equations to get four coupled linear
 ;; differential equations
 ;; let u be the x component of velocity, and v be the y component of velocity
-;; let x and y denote the two components of position (we are ignoring the 
+;; let x and y denote the two components of position (we are ignoring the
 ;; third dimension and are assuming no spin so that a ball travels in a plane)
 ;; the equations are
 ;;
@@ -301,7 +306,7 @@
 ;; we need the mass of a baseball -- which is about .15 kg.
 
 ;; so now we just need to write a procedure that performs a simple integration
-;; of these equations -- there are more sophisticated methods but a simple one 
+;; of these equations -- there are more sophisticated methods but a simple one
 ;; is just to step along by some step size in t and add up the values
 
 ;; dx = u dt
@@ -362,7 +367,7 @@
 
 ; How quickly does the distance drop when the angle changes, i.e., how easily does a home
 ; run turn into a fly out? Run same examples and report on this. For instance, suppose that
-; the outfield fence is 300 feet from home plate, and that the batter has very quick bat 
+; the outfield fence is 300 feet from home plate, and that the batter has very quick bat
 ; speed, swing at about 100 mph (or 45 m/sec). For what range of angles will the ball land
 ; over the fence?
 
@@ -400,10 +405,10 @@
 
 
 ;; Problem 7
- 
+
 ;; now let's turn this around.  Suppose we want to throw the ball.  The same
-;; equations basically hold, except now we would like to know what angle to 
-;; use, given a velocity, in order to reach a given height (receiver) at a 
+;; equations basically hold, except now we would like to know what angle to
+;; use, given a velocity, in order to reach a given height (receiver) at a
 ;; given distance
 
 (define (travel-time elevation velocity angle target)
@@ -425,7 +430,7 @@
               (+ t dt)
               dt g m beta precision))))))
         (let ((alpha (degree2radian angle)))
-          (integrate 0 elevation (* velocity (cos alpha)) (* velocity (sin alpha)) 0 
+          (integrate 0 elevation (* velocity (cos alpha)) (* velocity (sin alpha)) 0
 0.01 gravity mass beta 1)))
 
 (define (find-best-time elevation velocity target)
@@ -456,9 +461,9 @@
 ; home? If the catcher throws at 90 mph, how much time does he have to catch and release
 ; the ball if he is going to put out a runner trying to steal second?
 
-; I don't speak baseball 
+; I don't speak baseball
 
-;; try out some times for distances (30, 60, 90 m) or (100, 200, 300 ft) 
+;; try out some times for distances (30, 60, 90 m) or (100, 200, 300 ft)
 ;; using 45m/s
 
 ; > (find-best-time 2 45 30)
@@ -471,4 +476,62 @@
 
 ;; Problem 8
 
+(define (half-speed-bounce-travel-distance elevation velocity angle n-bounces)
+    (if (< n-bounces 0)
+        0  ; break loop
+        (let ((alpha (degree2radian angle)))
+           (+ (integrate 0 elevation (* velocity (cos alpha)) (* velocity (sin alpha)) 0.01 gravity mass beta)
+              (half-speed-bounce-travel-distance 0 (/ velocity 2) angle (- n-bounces 1)))))) ; besides the first throw, use 0 as the elevation
+
+; > (half-speed-bounce-travel-distance 2 45 45 0)
+; 92.76720294690212
+; > (half-speed-bounce-travel-distance 2 45 45 1)
+; 131.14738500293228
+; > (half-speed-bounce-travel-distance 2 45 45 2)
+; 143.08355343826682
+; > (half-speed-bounce-travel-distance 2 45 45 3)
+; 146.29019345849082
+
+; > (half-speed-bounce-travel-distance 2 35 45 0)
+; 70.85128703161121
+; > (half-speed-bounce-travel-distance 2 35 45 1)
+; 96.62914639446319
+; > (half-speed-bounce-travel-distance 2 35 45 2)
+; 104.119257935171
+; > (half-speed-bounce-travel-distance 2 35 45 3)
+; 106.07881664026294
+
+
 ;; Problem 9
+
+(define (bounce-travel-distance elevation velocity angle)
+    (define integrate
+      (lambda (x0 y0 u0 v0 dt g m beta)
+        (let ((v-total (sqrt (+ (square u0) (square v0)))))
+          (if (< v-total 0.01) ; if the speed is too small, stop computation
+              x0
+              (let ((d (/ (* beta v-total) m)))
+                (if (> y0 0)
+                    (integrate
+                      (+ x0 (* u0 dt))
+                      (+ y0 (* v0 dt))
+                      (- u0 (* d u0 dt))
+                      (- v0 (* (+ (* d v0) g) dt))
+                      dt g m beta)
+                    (integrate ; else if we hit the ground
+                      (+ x0 (* u0 dt))
+                      (+ y0 (* v0 dt -1)) ; reverse vertical movement
+                      (- u0 (* d u0 dt))
+                      (* -1 (- v0 (* (+ (* d v0) g) dt))) ; reverse vertical velocity
+                      dt g m beta)))))))
+    (let ((alpha (degree2radian angle)))
+      (integrate 0 elevation (* velocity (cos alpha)) (* velocity (sin alpha)) 0.01 gravity mass beta)))
+
+
+> (bounce-travel-distance 2 45 45)
+223.77562753250635
+> (bounce-travel-distance 2 35 45)
+212.11047887837975
+> (bounce-travel-distance 2 45 25)
+291.324075412125
+
