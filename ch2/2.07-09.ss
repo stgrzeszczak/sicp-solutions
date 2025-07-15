@@ -43,8 +43,8 @@
 ; width(x) + width(y)
 
 ; example for multiplication
-; (2,4) * (4,7) = (8, 28) ; widths 2, 3 and 20
+; (2,4) * (4,7) = (8, 28) ; widths 1, 1.5 and 10
 
 ; example for division
-; (6,24) / (3,6) = (1, 8) ; widths 6, 3 and 7
+; (6,24) / (3,6) = (1, 8) ; widths 9, 1.5 and 3.5
 

@@ -20,12 +20,15 @@
        2))
 
 (define (div-interval x y)
-      (if (= (width-interval y) 0)
-          (error "div-interval" "cannot divide by interval with zero span")
-          (mul-interval x 
-                    (make-interval 
-                     (/ 1.0 (upper-bound y)) 
-                     (/ 1.0 (lower-bound y))))))
+    (define (spans-zero interval)
+      (and (< (lower-bound interval) 0) (>= (upper-bound interval) 0)))
+    (if (spans-zero y)
+        (error "div-interval" "cannot divide by interval with zero span")
+        (mul-interval x
+          (make-interval
+            (/ 1.0 (upper-bound y))
+            (/ 1.0 (lower-bound y))))))
+
 
 ; tested using
-(div-interval (make-interval 6 24) (make-interval 7 7))
+(div-interval (make-interval 6 24) (make-interval -7 7))
