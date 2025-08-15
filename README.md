@@ -3,7 +3,7 @@ My solutions for the problems from Structure and Interpretation of Computer Prog
 
 Ongoing effort.
 
-Tested using Chez Scheme 10.0.0.
+Tested using Chez Scheme 10.x.y (started out with 10.0.0, now continuing using 10.1.0)
 
 Much of the code is taken directly from the book, so you should look at its license before copying anything.
 
