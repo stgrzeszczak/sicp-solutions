@@ -1,0 +1,11 @@
+The modified (queen-cols k) is calling the reduced step (queen-cols (- k 1)) multiple times instead of just once.
+
+If T is the time to run
+(queen-cols 1) (queen-cols 2) (queen-cols 3) (queen-cols 4) (queen-cols 5) (queen-cols 6) (queen-cols 7) (queen-cols 8)
+(plus filtering)
+
+The modified (queen-cols 2) will call (queen-cols 1) board-size times (8 times).
+(queen-cols 3) will also call (queen-cols 2) board-size times.
+
+In the end, there are 8^7 calls of (queen-cols 1).
+We can use this as an approximation for the time: 8^7 * T.
