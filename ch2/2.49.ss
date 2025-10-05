@@ -25,7 +25,7 @@
         (let ((x-segments (list
                         (make-segment (make-vect 0 1) (make-vect 1 0))
                         (make-segment (make-vect 0 0) (make-vect 1 1)))
-                          )))
+                          ))
           ((segments->painter x-segments) frame))
         )
 
@@ -35,13 +35,26 @@
                         (make-segment (make-vect 0 0.5) (make-vect 0.5 1))
                         (make-segment (make-vect 0.5 0) (make-vect 1 0.5))
                         (make-segment (make-vect 0.5 1) (make-vect 1 0.5)))
-                          )))
+                          ))
           ((segments->painter diamond-segments) frame))
         )
 
 (define (wave frame)
         (let ((wave-segments (list
-                          ; what, am I an artist now? 
-                          )))
+                              ; whatever ....
+                              (make-segment (make-vect 0.2 0.0) (make-vect 0.35 0.6))
+                              (make-segment (make-vect 0.8 0.0) (make-vect 0.65 0.6))
+                              (make-segment (make-vect 0.35 0.6) (make-vect 0.2 0.5))
+                              (make-segment (make-vect 0.65 0.6) (make-vect 0.8 0.5))
+                              (make-segment (make-vect 0.35 0.0) (make-vect 0.5 0.3))
+                              (make-segment (make-vect 0.65 0.0) (make-vect 0.5 0.3))
+                              (make-segment (make-vect 0.2 0.5) (make-vect 0.05 0.7))
+                              (make-segment (make-vect 0.8 0.5) (make-vect 0.95 0.3))
+                              (make-segment (make-vect 0.35 0.6) (make-vect 0.35 0.8))
+                              (make-segment (make-vect 0.65 0.6) (make-vect 0.65 0.8))
+                              (make-segment (make-vect 0.45 0.6) (make-vect 0.45 0.9))
+                              (make-segment (make-vect 0.55 0.6) (make-vect 0.55 0.9))
+                              )
+                          ))
           ((segments->painter wave-segments) frame))
         )
