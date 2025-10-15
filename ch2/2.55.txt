@@ -1,0 +1,18 @@
+; (car ''abracadabra)
+; quote
+
+According to the book, "the meaning of the single quote character is to quote the next object."
+
+''abracadabra means "quote 'abracadabra".
+
+car gets called on 'abracadabra, which means "quote abracadabra".
+
+It returns the first element, which is "quote".
+
+
+
+
+
+; no, none of this is convincing at all
+
+
