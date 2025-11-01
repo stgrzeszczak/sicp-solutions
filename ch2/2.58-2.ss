@@ -1,3 +1,5 @@
+; inspired by a solution from the net
+
 (define (variable? x) (symbol? x))
 
 (define (same-variable? v1 v2)
@@ -5,15 +7,26 @@
        (variable? v2)       (eq? v1 v2)))
 
 (define (sum? x)
-  (and (pair? x) (eq? (cadr x) '+)))
+  (pair? (memq '+ x)))
 
-(define (addend s) (car s))
+; unwraps single-element lists
+(define (simplify expr)
+    (if (= (length expr) 1)
+        (car expr)
+        expr))
 
-(define (augend s)
-  (if (null? (cdddr s))
-    (caddr s)
-    (cddr s)))
+; gathers everything before the first '+
+(define (addend expr)
+    (define (addend-impl expr)
+      (if (eq? (car expr) '+)
+        '()
+        (cons (car expr) (addend-impl (cdr expr)))))
+    (simplify (addend-impl expr)))
 
+(define (augend expr)
+    (simplify (cdr (memq '+ expr))))
+
+; no need to modify it, as it is processed below (sum?) in the conditional in (deriv)
 (define (product? x)
   (and (pair? x) (eq? (cadr x) '*)))
 
@@ -67,6 +80,19 @@
 ; 4
 ; > (deriv '(((x * x) + (x + 5)) + ((8 * x) * x)) 'x)
 ; (((x + x) + 1) + ((8 * x) + (8 * x)))
+
+; and new cases for the 2nd part:
+; > (deriv '(x + 3 * (x + y + 2)) 'x)
+; 4
+; > (deriv '(x + (x + y + 2) * 3) 'x)
+; 4
+; > (deriv '(x + (x + y + 2 * x) * 3) 'x)
+; 10
+; > (deriv '(x * (x + y + 2 * x) * 3) 'x)
+; ((x * 9) + ((x + y + 2 * x) * 3))
+; > (deriv '(3 * (x + y * 2) + x + 1) 'x)
+; 4
+
 
 
 
