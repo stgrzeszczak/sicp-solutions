@@ -1,0 +1,19 @@
+1. It builds the tree by splitting the elements list into 4 parts:
+* the left half of the tree (with floor((n-1)/2) elements)
+* the top/middle element, here known as this-entry
+* the right half of the tree (with (n - 1 - floor((n-1)/2)) elements)
+* the rest, here known as remaining-elts.
+It calls itself recursively on the left and right halves. 
+
+The tree:
+     5
+   /   \
+  /     \
+1         9
+ \       / \
+  \     /   \
+   3   7     11
+ 
+ 2. The complexity is O(n) because the algorithm does not re-iterate over the list.
+ The list is processed twice - first to get its length, then to build the tree in a Depth-first manner.
+ The nodes/branches are taken from the list in the order that they are there.
