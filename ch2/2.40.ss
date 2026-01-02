@@ -43,7 +43,7 @@
 
 (define (unique-pairs n)
     (flatmap (lambda (i) ; for each i in 1..n
-           (map (lambda (j) (list j i)) (enumerate-interval 1 (- i 1)))) ; for each j in 1..i-1 return (i j)
+           (map (lambda (j) (list i j)) (enumerate-interval 1 (- i 1)))) ; for each j in 1..i-1 return (i j)
     (enumerate-interval 1 n)))
 
 (define (prime-sum-pairs n)

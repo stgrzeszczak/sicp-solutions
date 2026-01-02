@@ -76,5 +76,27 @@
 (define sample-message 
   '(0 1 1 0 0 1 0 1 0 1 1 1 0))
 
-; > (decode sample-message sample-tree)
+(define decoded (decode sample-message sample-tree))
 ; (A D A B B C A)
+
+(define (encode message tree)
+  (if (null? message)
+      '()
+      (append 
+       (encode-symbol (car message) 
+                      tree)
+       (encode (cdr message) tree))))
+
+(define (encode-symbol symbol tree)
+    (define (has-symbol symbol tree)
+      (memq symbol (symbols tree)))
+    (cond
+      ((leaf? tree) '())
+      ((has-symbol symbol (left-branch tree)) (cons 0 (encode-symbol symbol (left-branch tree))))
+      ((has-symbol symbol (right-branch tree)) (cons 1 (encode-symbol symbol (right-branch tree))))
+      (error "symbol not found " symbol)
+      )
+    )
+
+(encode decoded sample-tree)
+; (0 1 1 0 0 1 0 1 0 1 1 1 0)
