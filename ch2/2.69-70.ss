@@ -25,28 +25,6 @@
       (weight-leaf tree)
       (cadddr tree)))
 
-(define (decode bits tree)
-  (define (decode-1 bits current-branch)
-    (if (null? bits)
-        '()
-        (let ((next-branch
-               (choose-branch 
-                (car bits) 
-                current-branch)))
-          (if (leaf? next-branch)
-              (cons 
-               (symbol-leaf next-branch)
-               (decode-1 (cdr bits) tree))
-              (decode-1 (cdr bits) 
-                        next-branch)))))
-  (decode-1 bits tree))
-
-(define (choose-branch bit branch)
-  (cond ((= bit 0) (left-branch branch))
-        ((= bit 1) (right-branch branch))
-        (else (error "bad bit: 
-               CHOOSE-BRANCH" bit))))
-
 (define (adjoin-set x set)
   (cond ((null? set) (list x))
         ((< (weight x) (weight (car set))) 
@@ -64,20 +42,26 @@
                     (cadr pair))  ; frequency
          (make-leaf-set (cdr pairs))))))
 
-(define sample-tree
-  (make-code-tree 
-   (make-leaf 'A 4)
-   (make-code-tree
-    (make-leaf 'B 2)
-    (make-code-tree 
-     (make-leaf 'D 1)
-     (make-leaf 'C 1)))))
+(define (generate-huffman-tree pairs)
+  (successive-merge 
+   (make-leaf-set pairs)))
 
-(define sample-message 
-  '(0 1 1 0 0 1 0 1 0 1 1 1 0))
+(define (successive-merge nodes)
+    (if (null? (cdr nodes)) ; if nodes has one element left
+        (car nodes)         ; return the element
+        (let ((left (car nodes)) (right (cadr nodes)) )
+          (successive-merge (adjoin-set (make-code-tree left right) (cddr nodes)))
+        )
+    ))
 
-(define decoded (decode sample-message sample-tree))
-; (A D A B B C A)
+; tested with
+; (generate-huffman-tree '((A 4) (B 2) (C 1) (D 1)))
+; ((leaf A 4)
+;   ((leaf B 2) ((leaf D 1) (leaf C 1) (D C) 2) (B D C) 4)
+;   (A B D C)
+;   8)
+
+; the result is the same as sample-tree from exercise 2.67
 
 (define (encode message tree)
   (if (null? message)
@@ -98,5 +82,18 @@
       )
     )
 
-(encode decoded sample-tree)
-; (0 1 1 0 0 1 0 1 0 1 1 1 0)
+(define song-tree (generate-huffman-tree '((A 2) (BOOM 1) (GET 2) (JOB 2) (NA 16) (SHA 3) (YIP 9) (WAH 1))))
+
+; I can only encode the song in uppercase (it must match the symbols
+(define encoded-song (encode '(GET A JOB SHA NA NA NA NA NA NA NA NA GET A JOB SHA NA NA NA NA NA NA NA NA WAH YIP YIP YIP YIP YIP YIP YIP YIP YIP SHA BOOM) song-tree))
+
+; encoded-song
+; (1 1 1 1 1 1 1 0 0 1 1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 1
+;  1 1 1 0 0 1 1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 1 1 0 1 0 1 0 1
+;  0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 1 0 1 1 0 1 1)
+
+; (length encoded-song)
+; 84
+
+; if we used fixed-length code, each symbol would use 3 bits.
+; The song has 36 symbols, so it would take 108 bits when encoded. 
