@@ -1,0 +1,53 @@
+n = 5
+using the frequencies of the symbols as their names:
+1, 2, 4, 8, 16
+((1, 2, frequency 3), 4, 8, 16
+((1, 2, frequency 3), (4), frequency 7), 8, 16
+(((1, 2, frequency 3), (4), frequency 7), 8, frequency 15), 16
+        *
+       / \
+      *   16
+     /  \
+    *    8
+   / \
+  *   4
+ /  \
+1    2
+
+
+n = 10
+
+The tree is tilted and shortened for simpler writing:
+
+* - 2^9
+|
+* - 2^8
+|
+* - 2^7
+...
+* - 2
+|
+1
+
+In general:
+most frequent symbol - 1 bit
+least frequent symbol - n-1 bits
+
+Special case:
+most frequent symbol:
+n-1 steps to search the symbol list for the left (rejected) branch.
+1 steps to search the symbol list for the right branch.
+Result: O(n) steps.
+It could be O(1) if the tree branches were reversed
+
+least frequent symbol:
+Searching the symbol lists: (n-1) + (n-2) + ... + 1.
+Descending the tree: (n-1) steps.
+In total, O(n^2).
+
+The least frequent symbol gives an upper bound on the order of growth (the pessimistic case).
+For an average case, let's consider a balanced tree, with all symbols having the same frequency
+(although the Huffman encoding loses its benefits in this case):
+log2(n) steps to descend the tree
+n + n/2 + n/4 + ... = 2*n steps to search the symbol lists (the lists are halved at each tree level)
+Altogether, the order is O(n).
